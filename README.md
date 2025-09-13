@@ -1,12 +1,12 @@
-###Copyright (c) 2025 Ezazul Islam
+#Copyright (c) 2025 Ezazul Islam
 
 ##Baribhara -- 0ur taregetted market is Bangladesh.
 
 Our system's Tech stack:
 
-1. web based super dashboard for admin to moniotor and control all the user. [Vue]
-2. web based user dashboard [React] and mobile app dashboard [Flutter] for each user.
-3. Microservice Server [Nest js, go, php, rust]
+1. web based super Admin panel for admin to moniotor and control all the user. [Vue]
+2. web based user panel [React] and mobile app [Flutter] for each user.
+3. Microservice Server [Nest js, go, laravel, rust]
 4. Postgres database and reddis for session, caching.
 5. Restful API for server to client communication
 6. JWT and RBAC for authentication and authorization
@@ -16,12 +16,18 @@ Our system's Tech stack:
 10. Grpc for server to server communication
 11. AWS for Deployment
 12. Github action for CI/CD
-13. Technology [kafka, nginx, sentry, webhook, jaeger, istio]
+13. Webhook for live notification and payment.
+14. Jaeger for tracing platform designed to monitor and troubleshoot microservices.
+15. Unit Testing and Database migration
+16. Kafka for live messaging
+17. Nginx for reverse proxy and traffic handling
+18. Sentry for error tracking 
 
 
 Features:
 
-1. App name "Baribhara". This app can manage property and tenant for caretaker. after logging in to the system a user can act as both tenant and caretaker at the same time. So the entire app's flow is organized that way. Reason: a caretaker can be a tenant of another caretaker.
+1. This app can manage property and tenant for caretaker. 
+After logging in to the system a user can act as both tenant and caretaker at the same time. Because a caretaker can be a tenant of another caretaker. So the entire app's flow should be organized that way. 
 
 2. For registration Name, Phone Number, National ID(optional) , Email(optional) and password require. For login email/phone and password needed.
 

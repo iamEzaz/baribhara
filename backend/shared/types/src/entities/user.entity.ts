@@ -3,6 +3,7 @@ import { Exclude, Expose } from 'class-transformer';
 
 export enum UserRole {
   SUPER_ADMIN = 'super_admin',
+  ADMIN = 'admin',
   CARETAKER = 'caretaker',
   TENANT = 'tenant',
 }
@@ -11,6 +12,7 @@ export enum UserStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
   SUSPENDED = 'suspended',
+  BANNED = 'banned',
   PENDING_VERIFICATION = 'pending_verification',
 }
 
@@ -42,9 +44,6 @@ export class User {
   password: string;
 
   @Expose()
-  role: UserRole;
-
-  @Expose()
   status: UserStatus;
 
   @Expose()
@@ -61,6 +60,32 @@ export class User {
 
   @Expose()
   isPhoneVerified: boolean;
+}
+
+export class UserRoleAssignment {
+  @Expose()
+  id: string;
+
+  @Expose()
+  userId: string;
+
+  @Expose()
+  role: string; // tenant, caretaker, admin, super_admin
+
+  @Expose()
+  isActive: boolean;
+
+  @Expose()
+  grantedAt: Date;
+
+  @Expose()
+  grantedBy?: string;
+
+  @Expose()
+  expiresAt?: Date;
+
+  @Expose()
+  createdAt: Date;
 }
 
 export class CreateUserDto {
@@ -126,9 +151,6 @@ export class UserResponseDto {
   nationalId?: string;
 
   @Expose()
-  role: UserRole;
-
-  @Expose()
   status: UserStatus;
 
   @Expose()
@@ -142,4 +164,7 @@ export class UserResponseDto {
 
   @Expose()
   isPhoneVerified: boolean;
+
+  @Expose()
+  roles?: string[]; // Array of active roles
 }

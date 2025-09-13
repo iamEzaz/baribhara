@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres-test:
+    image: postgres:15-alpine
+    container_name: baribhara-postgres-test
+    environment:
+      POSTGRES_DB: baribhara_test
+      POSTGRES_USER: baribhara
+      POSTGRES_PASSWORD: baribhara123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+      - ./init-scripts/01-init-database.sql:/docker-entrypoint-initdb.d/01-init-database.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U baribhara -d baribhara_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis-test:
+    image: redis:7-alpine
+    container_name: baribhara-redis-test
+    ports:
+      - "6380:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_test_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka-test:
+    image: confluentinc/cp-kafka:latest
+    container_name: baribhara-kafka-test
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-test:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    ports:
+      - "9093:9092"
+    depends_on:
+      - zookeeper-test
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  zookeeper-test:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: baribhara-zookeeper-test
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2182:2181"
+
+volumes:
+  postgres_test_data:
+  redis_test_data:

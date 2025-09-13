@@ -4,6 +4,10 @@ export * from './entities/property.entity';
 export * from './entities/tenant.entity';
 export * from './entities/invoice.entity';
 export * from './entities/caretaker.entity';
+export * from './entities/tenant-property-relationship.entity';
+export * from './entities/property-field-template.entity';
+export * from './entities/tenant-request.entity';
+export * from './entities/due.entity';
 
 // Common
 export * from './common/api-response';
