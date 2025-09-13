@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+package property;
+
+service PropertyService {
+  rpc CreateProperty(CreatePropertyRequest) returns (CreatePropertyResponse);
+  rpc GetProperty(GetPropertyRequest) returns (GetPropertyResponse);
+  rpc UpdateProperty(UpdatePropertyRequest) returns (UpdatePropertyResponse);
+  rpc DeleteProperty(DeletePropertyRequest) returns (DeletePropertyResponse);
+  rpc ListProperties(ListPropertiesRequest) returns (ListPropertiesResponse);
+  rpc SearchProperties(SearchPropertiesRequest) returns (SearchPropertiesResponse);
+  rpc GetPropertiesByCaretaker(GetPropertiesByCaretakerRequest) returns (GetPropertiesByCaretakerResponse);
+}
+
+message CreatePropertyRequest {
+  string name = 1;
+  string description = 2;
+  string type = 3;
+  PropertyAddress address = 4;
+  double rentAmount = 5;
+  double securityDeposit = 6;
+  double area = 7;
+  int32 bedrooms = 8;
+  int32 bathrooms = 9;
+  int32 floor = 10;
+  int32 totalFloors = 11;
+  repeated string amenities = 12;
+  repeated string images = 13;
+  string caretakerId = 14;
+}
+
+message CreatePropertyResponse {
+  bool success = 1;
+  Property property = 2;
+  string error = 3;
+}
+
+message GetPropertyRequest {
+  string propertyId = 1;
+}
+
+message GetPropertyResponse {
+  bool success = 1;
+  Property property = 2;
+  string error = 3;
+}
+
+message UpdatePropertyRequest {
+  string propertyId = 1;
+  string name = 2;
+  string description = 3;
+  string type = 4;
+  PropertyAddress address = 5;
+  double rentAmount = 6;
+  double securityDeposit = 7;
+  double area = 8;
+  int32 bedrooms = 9;
+  int32 bathrooms = 10;
+  int32 floor = 11;
+  int32 totalFloors = 12;
+  repeated string amenities = 13;
+  repeated string images = 14;
+}
+
+message UpdatePropertyResponse {
+  bool success = 1;
+  Property property = 2;
+  string error = 3;
+}
+
+message DeletePropertyRequest {
+  string propertyId = 1;
+}
+
+message DeletePropertyResponse {
+  bool success = 1;
+  string error = 2;
+}
+
+message ListPropertiesRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  string sortBy = 3;
+  string sortOrder = 4;
+  string search = 5;
+}
+
+message ListPropertiesResponse {
+  bool success = 1;
+  repeated Property properties = 2;
+  int32 total = 3;
+  int32 page = 4;
+  int32 limit = 5;
+  string error = 6;
+}
+
+message SearchPropertiesRequest {
+  string query = 1;
+  string city = 2;
+  string district = 3;
+  string type = 4;
+  double minRent = 5;
+  double maxRent = 6;
+  int32 minBedrooms = 7;
+  int32 maxBedrooms = 8;
+  int32 page = 9;
+  int32 limit = 10;
+}
+
+message SearchPropertiesResponse {
+  bool success = 1;
+  repeated Property properties = 2;
+  int32 total = 3;
+  int32 page = 4;
+  int32 limit = 5;
+  string error = 6;
+}
+
+message GetPropertiesByCaretakerRequest {
+  string caretakerId = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
+message GetPropertiesByCaretakerResponse {
+  bool success = 1;
+  repeated Property properties = 2;
+  int32 total = 3;
+  int32 page = 4;
+  int32 limit = 5;
+  string error = 6;
+}
+
+message Property {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string type = 4;
+  string status = 5;
+  PropertyAddress address = 6;
+  double rentAmount = 7;
+  double securityDeposit = 8;
+  double area = 9;
+  int32 bedrooms = 10;
+  int32 bathrooms = 11;
+  int32 floor = 12;
+  int32 totalFloors = 13;
+  repeated string amenities = 14;
+  repeated string images = 15;
+  string caretakerId = 16;
+  string currentTenantId = 17;
+  int64 createdAt = 18;
+  int64 updatedAt = 19;
+}
+
+message PropertyAddress {
+  string street = 1;
+  string city = 2;
+  string district = 3;
+  string division = 4;
+  string postalCode = 5;
+  string landmark = 6;
+}

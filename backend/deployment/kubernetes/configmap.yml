@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: baribhara-config
+  namespace: baribhara
+data:
+  # Database Configuration
+  DATABASE_HOST: "postgres-service"
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: "baribhara"
+  DATABASE_USER: "baribhara"
+  
+  # Redis Configuration
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  
+  # Kafka Configuration
+  KAFKA_BROKERS: "kafka-service:9092"
+  
+  # JWT Configuration
+  JWT_SECRET: "your-super-secret-jwt-key-change-in-production"
+  JWT_EXPIRES_IN: "24h"
+  JWT_REFRESH_EXPIRES_IN: "7d"
+  
+  # Service URLs
+  AUTH_SERVICE_URL: "http://auth-service:3001"
+  USER_SERVICE_URL: "http://user-service:3002"
+  PROPERTY_SERVICE_URL: "http://property-service:3003"
+  TENANT_SERVICE_URL: "http://tenant-service:3004"
+  INVOICE_SERVICE_URL: "http://invoice-service:3005"
+  NOTIFICATION_SERVICE_URL: "http://notification-service:3006"
+  REPORT_SERVICE_URL: "http://report-service:3007"
+  ADMIN_SERVICE_URL: "http://admin-service:3008"
+  
+  # Monitoring
+  PROMETHEUS_URL: "http://prometheus:9090"
+  JAEGER_URL: "http://jaeger:14268"
+  
+  # External Services
+  SENTRY_DSN: "your-sentry-dsn"
+  
+  # Email Configuration
+  SMTP_HOST: "smtp.gmail.com"
+  SMTP_PORT: "587"
+  SMTP_USER: "your-email@gmail.com"
+  SMTP_PASS: "your-app-password"
+  
+  # SMS Configuration
+  TWILIO_ACCOUNT_SID: "your-twilio-account-sid"
+  TWILIO_AUTH_TOKEN: "your-twilio-auth-token"
+  TWILIO_PHONE_NUMBER: "your-twilio-phone-number"
+  
+  # WhatsApp Configuration
+  WHATSAPP_API_URL: "https://api.whatsapp.com"
+  WHATSAPP_TOKEN: "your-whatsapp-token"

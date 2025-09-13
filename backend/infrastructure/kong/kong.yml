@@ -1,0 +1,160 @@
+_format_version: "3.0"
+
+services:
+  - name: api-gateway
+    url: http://api-gateway:3000
+    routes:
+      - name: api-gateway-route
+        paths:
+          - /api/v1
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+        strip_path: false
+
+  - name: auth-service
+    url: http://auth-service:3001
+    routes:
+      - name: auth-service-route
+        paths:
+          - /api/v1/auth
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        strip_path: false
+
+  - name: user-service
+    url: http://user-service:3002
+    routes:
+      - name: user-service-route
+        paths:
+          - /api/v1/users
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        strip_path: false
+
+  - name: property-service
+    url: http://property-service:3003
+    routes:
+      - name: property-service-route
+        paths:
+          - /api/v1/properties
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        strip_path: false
+
+  - name: tenant-service
+    url: http://tenant-service:3004
+    routes:
+      - name: tenant-service-route
+        paths:
+          - /api/v1/tenants
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        strip_path: false
+
+  - name: invoice-service
+    url: http://invoice-service:3005
+    routes:
+      - name: invoice-service-route
+        paths:
+          - /api/v1/invoices
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        strip_path: false
+
+  - name: notification-service
+    url: http://notification-service:3006
+    routes:
+      - name: notification-service-route
+        paths:
+          - /api/v1/notifications
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        strip_path: false
+
+  - name: report-service
+    url: http://report-service:3007
+    routes:
+      - name: report-service-route
+        paths:
+          - /api/v1/reports
+        methods:
+          - GET
+          - POST
+        strip_path: false
+
+  - name: admin-service
+    url: http://admin-service:3008
+    routes:
+      - name: admin-service-route
+        paths:
+          - /api/v1/admin
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        strip_path: false
+
+plugins:
+  - name: cors
+    config:
+      origins:
+        - "http://localhost:3000"
+        - "http://localhost:3001"
+      methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+      headers:
+        - Accept
+        - Accept-Version
+        - Content-Length
+        - Content-MD5
+        - Content-Type
+        - Date
+        - Authorization
+      credentials: true
+
+  - name: rate-limiting
+    config:
+      minute: 100
+      hour: 1000
+      policy: local
+
+  - name: request-transformer
+    config:
+      add:
+        headers:
+          - "X-Forwarded-For:$(proxy_protocol_addr)"
+          - "X-Forwarded-Proto:$(proxy_protocol_scheme)"
+
+  - name: response-transformer
+    config:
+      add:
+        headers:
+          - "X-Response-Time:$(response_time)"
+          - "X-Kong-Upstream-Latency:$(upstream_latency)"
