@@ -3,6 +3,7 @@ export * from './entities/user.entity';
 export * from './entities/property.entity';
 export * from './entities/tenant.entity';
 export * from './entities/invoice.entity';
+export * from './entities/caretaker.entity';
 
 // Common
 export * from './common/api-response';
@@ -18,6 +19,7 @@ export enum ServiceName {
   NOTIFICATION_SERVICE = 'notification-service',
   REPORT_SERVICE = 'report-service',
   ADMIN_SERVICE = 'admin-service',
+  CARETAKER_SERVICE = 'caretaker-service',
 }
 
 export enum EventType {
@@ -34,6 +36,12 @@ export enum EventType {
   INVOICE_UPDATED = 'invoice.updated',
   INVOICE_PAID = 'invoice.paid',
   NOTIFICATION_SENT = 'notification.sent',
+  CARETAKER_CREATED = 'caretaker.created',
+  CARETAKER_UPDATED = 'caretaker.updated',
+  CARETAKER_DELETED = 'caretaker.deleted',
+  CARETAKER_VERIFIED = 'caretaker.verified',
+  CARETAKER_SUSPENDED = 'caretaker.suspended',
+  CARETAKER_ACTIVATED = 'caretaker.activated',
 }
 
 export interface BaseEvent {

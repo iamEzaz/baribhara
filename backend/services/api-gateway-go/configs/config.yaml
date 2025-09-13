@@ -1,0 +1,66 @@
+server:
+  port: 8080
+  mode: "debug"
+  read_timeout: 30
+  write_timeout: 30
+  idle_timeout: 120
+
+services:
+  auth_service:
+    host: "localhost"
+    port: 3001
+    grpc_port: 50051
+  
+  user_service:
+    host: "localhost"
+    port: 3002
+    grpc_port: 50052
+  
+  property_service:
+    host: "localhost"
+    port: 3003
+    grpc_port: 50053
+  
+  tenant_service:
+    host: "localhost"
+    port: 3004
+    grpc_port: 50054
+  
+  invoice_service:
+    host: "localhost"
+    port: 3005
+    grpc_port: 50055
+  
+  notification_service:
+    host: "localhost"
+    port: 3006
+    grpc_port: 50056
+  
+  report_service:
+    host: "localhost"
+    port: 3007
+    grpc_port: 50057
+  
+  admin_service:
+    host: "localhost"
+    port: 3008
+    grpc_port: 50058
+  
+  caretaker_service:
+    host: "localhost"
+    port: 3009
+    grpc_port: 50059
+
+redis:
+  host: "localhost"
+  port: 6379
+  password: ""
+  db: 0
+
+jwt:
+  secret: "your-secret-key-change-in-production"
+  expiration: "24h"
+
+metrics:
+  enabled: true
+  path: "/metrics"

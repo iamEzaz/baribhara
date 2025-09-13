@@ -1,3 +1,5 @@
+###Copyright (c) 2025 Ezazul Islam
+
 # Baribhara Backend Microservices Architecture
 
 ## 🏗️ Architecture Overview

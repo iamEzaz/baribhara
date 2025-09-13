@@ -1,3 +1,5 @@
+###Copyright (c) 2025 Ezazul Islam
+
 ##Baribhara -- 0ur taregetted market is Bangladesh.
 
 Our system's Tech stack:
