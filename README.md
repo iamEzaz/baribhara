@@ -54,3 +54,25 @@ After logging in to the system a user can act as both tenant and caretaker at th
 5. Tenants can also send request for each property by unique id or name and if the caretaker accepts then tenants can see the details. Tenant can see the progress of property each month and download invoices and track them. After the payment tenant will be able to share the bkash, nagad or bank's transection number in property each month.
 
 6. Superadmin can literally do anything technically possible for giving all the user extensive support and solve the problem.
+
+#Architecture
+
+backend/
+├── services/
+│   ├── nest-services/          # Single NestJS app
+│   │   ├── src/
+│   │   │   ├── modules/        # All modules here
+│   │   │   │   ├── auth/
+│   │   │   │   ├── user/
+│   │   │   │   └── ...
+│   │   │   ├── app.module.ts
+│   │   │   └── main.ts
+│   │   ├── package.json
+│   │   └── Dockerfile
+│   └── api-gateway/            # Go API Gateway
+├── shared/                     # Use existing shared folder
+│   ├── types/                  # Shared types for all services
+│   ├── logger/                 # Shared logging utilities
+│   └── proto/                  # gRPC definitions
+├── infrastructure/             # Docker compose, etc.
+└── database/                   # Database migrations

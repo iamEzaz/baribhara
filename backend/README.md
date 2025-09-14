@@ -1,10 +1,10 @@
 #Copyright (c) 2025 Ezazul Islam
 
-# Baribhara Backend Microservices Architecture
+# Baribhara Backend Modular Architecture
 
 ## 🏗️ Architecture Overview
 
-Baribhara is a comprehensive property management system built with a scalable microservices architecture, specifically designed for the Bangladesh market. The system supports both caretakers and tenants, allowing users to manage properties, handle rent payments, and maintain comprehensive records.
+Baribhara is a comprehensive property management system built with a modular architecture, specifically designed for the Bangladesh market. The system combines the benefits of microservices with the simplicity of a monolith, featuring all business logic as modules in a single NestJS application with a high-performance Go API Gateway.
 
 ## 🚀 Quick Start
 
@@ -23,16 +23,19 @@ cd Baribhara/backend
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
 
-# Start individual services (in separate terminals)
-cd services/api-gateway && go run cmd/main.go
-cd services/auth-service && npm run start:dev
-cd services/user-service && npm run start:dev
-# ... continue for other services
+# Start modular services
+./scripts/start-modular.sh start
+
+# Or start with Docker
+cd infrastructure
+docker-compose -f docker-compose.modular.yml up -d
 ```
 
 ### Access Points
 - **API Gateway (Go)**: http://localhost:8080
-- **Swagger Documentation**: http://localhost:8080/api/docs
+- **NestJS Services**: http://localhost:3000
+- **Swagger Documentation**: http://localhost:3000/api/docs
+- **Health Check**: http://localhost:3000/health
 - **Grafana Monitoring**: http://localhost:3000 (admin/admin123)
 - **Jaeger Tracing**: http://localhost:16686
 - **Prometheus Metrics**: http://localhost:8080/metrics
@@ -71,8 +74,8 @@ curl -X POST http://localhost:8080/api/v1/auth/login \
 # Run all tests including E2E
 ./scripts/run-tests.sh --all
 
-# Run tests for specific service
-cd services/property-service && npm test
+# Run tests for specific module
+cd services/nest-services && npm test -- --testPathPattern=auth
 cd services/api-gateway && go test ./...
 ```
 
@@ -87,16 +90,22 @@ cd services/api-gateway && go test ./...
 ### Core Services
 | Service | Port | Description | Technology | Status |
 |---------|------|-------------|------------|--------|
-| API Gateway | 8080 | High-performance entry point | Go | ✅ Complete |
-| Auth Service | 3001 | Authentication & authorization | NestJS | ✅ Complete |
-| User Service | 3002 | User profile management | NestJS | ✅ Complete |
-| Property Service | 3003 | Property management | NestJS | ✅ Complete |
-| Tenant Service | 3004 | Tenant relationships | NestJS | ✅ Complete |
-| Caretaker Service | 3009 | Caretaker management | NestJS | ✅ Complete |
-| Invoice Service | 3005 | Billing & payments | NestJS | 🔄 In Progress |
-| Notification Service | 3006 | Multi-channel notifications | NestJS | 🔄 In Progress |
-| Report Service | 3007 | Analytics & reporting | NestJS | 🔄 In Progress |
-| Admin Service | 3008 | Super admin functions | NestJS | 🔄 In Progress |
+| **API Gateway** | 8080 | High-performance entry point | Go | ✅ Complete |
+| **NestJS Services** | 3000 | All business logic as modules | NestJS | ✅ Complete |
+
+### NestJS Modules (Port 3000)
+| Module | Description | Status |
+|--------|-------------|--------|
+| Auth Module | Authentication & authorization | ✅ Complete |
+| User Module | User profile management | 🔄 In Progress |
+| Property Module | Property management | 🔄 In Progress |
+| Tenant Module | Tenant relationships | 🔄 In Progress |
+| Invoice Module | Billing & payments | 🔄 In Progress |
+| Notification Module | Multi-channel notifications | 🔄 In Progress |
+| Report Module | Analytics & reporting | 🔄 In Progress |
+| Admin Module | Super admin functions | 🔄 In Progress |
+| Caretaker Module | Caretaker management | 🔄 In Progress |
+| Dashboard Module | Real-time dashboards & analytics | 🔄 In Progress |
 
 ### Infrastructure Services
 - **PostgreSQL**: Primary database
@@ -110,17 +119,25 @@ cd services/api-gateway && go test ./...
 
 ```
 backend/
-├── services/                    # 10 Microservices
+├── services/                    # 2 Core Services
 │   ├── api-gateway/            # ✅ High-Performance Go API Gateway
-│   ├── auth-service/           # ✅ Authentication service (NestJS)
-│   ├── user-service/           # ✅ User management service (NestJS)
-│   ├── property-service/       # ✅ Property management service (NestJS)
-│   ├── tenant-service/         # ✅ Tenant management service (NestJS)
-│   ├── caretaker-service/      # ✅ Caretaker management service (NestJS)
-│   ├── invoice-service/        # 🔄 Invoice and payment service (NestJS)
-│   ├── notification-service/   # 🔄 Notification service (NestJS)
-│   ├── report-service/         # 🔄 Report generation service (NestJS)
-│   └── admin-service/          # 🔄 Super admin service (NestJS)
+│   └── nest-services/          # ✅ All NestJS modules in one app
+│       ├── src/
+│       │   ├── modules/        # All business logic as modules
+│       │   │   ├── auth/       # Authentication & authorization
+│       │   │   ├── user/       # User profile management
+│       │   │   ├── property/   # Property management
+│       │   │   ├── tenant/     # Tenant relationships
+│       │   │   ├── invoice/    # Billing & payments
+│       │   │   ├── notification/ # Multi-channel notifications
+│       │   │   ├── report/     # Analytics & reporting
+│       │   │   ├── admin/      # Super admin functions
+│       │   │   ├── caretaker/  # Caretaker management
+│       │   │   └── dashboard/  # Real-time dashboards
+│       │   ├── app.module.ts   # Main app module
+│       │   └── main.ts         # Application entry point
+│       ├── package.json        # Single package.json
+│       └── Dockerfile
 ├── shared/                     # Shared Libraries
 │   ├── types/                  # ✅ TypeScript types & DTOs
 │   ├── logger/                 # ✅ Centralized logging
